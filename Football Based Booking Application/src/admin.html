@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FootyPitch - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Admin Navigation Bar -->
+
+
+<div class="admin-info">
+    <span id="admin-name"></span>
+    <span id="admin-email"></span>
+</div>
+
+
+
+<nav class="navbar admin-navbar">
+    <div class="container">
+        <a href="#" class="logo"><i class="fas fa-futbol"></i> FootyPitch Admin</a>
+        <div class="nav-links">
+            <a href="#bookings">Bookings</a>
+            <a href="#fields">Fields</a>
+            <a href="#users">Users</a>
+            <button id="logout-btn" class="btn btn-outline">Logout</button>
+        </div>
+        <button class="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Admin Main Content -->
+<main class="admin-container">
+    <div class="container">
+        <!-- Bookings Management Section -->
+        <section id="bookings" class="admin-section">
+            <div class="section-header">
+                <h2>Bookings Management</h2>
+                <button id="add-booking-btn" class="btn btn-primary">Add New Booking</button>
+            </div>
+
+            <div class="filter-options">
+                <div class="filter">
+                    <label for="booking-status">Status:</label>
+                    <select id="booking-status">
+                        <option value="all">All Statuses</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="booking-date-range">Date Range:</label>
+                    <select id="booking-date-range">
+                        <option value="all">All Dates</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                <div class="filter" id="custom-date-range" style="display: none;">
+                    <label for="start-date">From:</label>
+                    <input type="date" id="start-date">
+                    <label for="end-date">To:</label>
+                    <input type="date" id="end-date">
+                </div>
+                <div class="filter">
+                    <label for="booking-search">Search:</label>
+                    <input type="text" id="booking-search" placeholder="Search bookings...">
+                </div>
+            </div>
+
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Field</th>
+                        <th>User</th>
+                        <th>Date & Time</th>
+                        <th>Duration</th>
+                        <th>Players</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bookings-table-body">
+                    <!-- Bookings will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Add Booking Modal -->
+<div id="add-booking-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Add New Booking</h2>
+            <form id="add-booking-form">
+                <div class="form-group">
+                    <label for="admin-field-select">Field</label>
+                    <select id="admin-field-select" required>
+                        <!-- Fields will be populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="admin-user-select">User</label>
+                    <select id="admin-user-select" required>
+                        <!-- Users will be populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="admin-booking-date">Date</label>
+                    <input type="date" id="admin-booking-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-booking-time">Time</label>
+                    <input type="time" id="admin-booking-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-booking-duration">Duration (hours)</label>
+                    <input type="number" id="admin-booking-duration" min="1" max="4" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-player-count">Number of Players</label>
+                    <input type="number" id="admin-player-count" min="1" max="22" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-team-name">Team Name (optional)</label>
+                    <input type="text" id="admin-team-name">
+                </div>
+                <div class="form-group">
+                    <label for="admin-booking-status">Status</label>
+                    <select id="admin-booking-status" required>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="admin-booking-price">Total Price (Rs.)</label>
+                    <input type="number" id="admin-booking-price" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Booking</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Booking Modal -->
+<div id="edit-booking-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Edit Booking</h2>
+            <form id="edit-booking-form">
+                <input type="hidden" id="edit-booking-id">
+                <div class="form-group">
+                    <label for="edit-field-select">Field</label>
+                    <select id="edit-field-select" required>
+                        <!-- Fields will be populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-user-select">User</label>
+                    <select id="edit-user-select" required>
+                        <!-- Users will be populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-booking-date">Date</label>
+                    <input type="date" id="edit-booking-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-booking-time">Time</label>
+                    <input type="time" id="edit-booking-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-booking-duration">Duration (hours)</label>
+                    <input type="number" id="edit-booking-duration" min="1" max="4" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-player-count">Number of Players</label>
+                    <input type="number" id="edit-player-count" min="1" max="22" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-team-name">Team Name (optional)</label>
+                    <input type="text" id="edit-team-name">
+                </div>
+                <div class="form-group">
+                    <label for="edit-booking-status">Status</label>
+                    <select id="edit-booking-status" required>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-booking-price">Total Price (Rs.)</label>
+                    <input type="number" id="edit-booking-price" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Booking</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirm-modal" class="modal">
+    <div class="modal-content small-modal">
+        <div class="modal-body">
+            <h3 id="confirm-message">Are you sure you want to delete this booking?</h3>
+            <div class="modal-actions">
+                <button id="confirm-cancel" class="btn btn-outline">Cancel</button>
+                <button id="confirm-action" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FootyPitch - Football Field Booking System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+
+
+
+
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="#" class="logo"><i class="fas fa-futbol"></i> FootyPitch</a>
+        <div class="nav-links">
+            <a href="#fields">Fields</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#contact">Contact</a>
+            <div class="auth-buttons">
+                <button id="login-btn" class="btn btn-outline">Login</button>
+                <button id="register-btn" class="btn btn-primary">Register</button>
+                <button id="admin-btn" class="btn btn-primary" style="display: none;"><i class="fas fa-cog"></i> Admin</button>
+            </div>
+        </div>
+        <button class="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Book Football Fields in Minutes</h1>
+            <p>Find and reserve the perfect pitch for your next game with our easy-to-use booking system.</p>
+            <div class="search-box">
+                <input type="text" placeholder="Search by location...">
+                <input type="date" placeholder="Select date">
+                <button class="btn btn-primary">Find Fields</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fields Section -->
+<section id="fields" class="fields-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Available Football Fields</h2>
+            <p>Discover top-quality football fields in your area. Book your favorite pitch with just a few clicks.</p>
+        </div>
+
+        <div class="filter-options">
+            <div class="filter">
+                <label for="location">Location:</label>
+                <select id="location">
+                    <option value="all">All Locations</option>
+                    <option value="north">North Area</option>
+                    <option value="south">South Area</option>
+                    <option value="east">East Area</option>
+                    <option value="west">West Area</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label for="surface">Surface Type:</label>
+                <select id="surface">
+                    <option value="all">All Surfaces</option>
+                    <option value="grass">Natural Grass</option>
+                    <option value="artificial">Artificial Turf</option>
+                    <option value="indoor">Indoor</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label for="size">Field Size:</label>
+                <select id="size">
+                    <option value="all">All Sizes</option>
+                    <option value="5-a-side">5-a-side</option>
+                    <option value="7-a-side">7-a-side</option>
+                    <option value="11-a-side">11-a-side</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="fields-grid">
+            <!-- Field cards will be populated by JavaScript -->
+            <div class="loading">Loading fields...</div>
+        </div>
+    </div>
+</section>
+
+<!-- Field Details Modal -->
+<div id="field-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <div class="field-images">
+                <div class="main-image">
+                    <img id="modal-main-img" src="" alt="Field image">
+                </div>
+                <div class="thumbnail-container">
+                    <!-- Thumbnails will be added by JS -->
+                </div>
+            </div>
+            <div class="field-info">
+                <h2 id="modal-field-name"></h2>
+                <div class="rating">
+                    <span class="stars"></span>
+                    <span id="modal-rating"></span>
+                </div>
+                <p id="modal-location" class="location"></p>
+                <p id="modal-description" class="description"></p>
+
+                <div class="details-grid">
+                    <div class="detail">
+                        <i class="fas fa-ruler-combined"></i>
+                        <span id="modal-size"></span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-layer-group"></i>
+                        <span id="modal-surface"></span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span id="modal-price"></span>/hour
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-users"></i>
+                        <span id="modal-capacity"></span> players
+                    </div>
+                </div>
+
+                <div class="amenities">
+                    <h3>Amenities</h3>
+                    <div class="amenities-list" id="modal-amenities">
+                        <!-- Amenities will be added by JS -->
+                    </div>
+                </div>
+
+                <div class="booking-section">
+                    <div class="weather-info"></div>
+                    <h3>Available Time Slots</h3>
+                    <div class="date-selector">
+                        <input type="date" id="booking-date">
+                    </div>
+                    <div class="time-slots" id="time-slots-container">
+                        <!-- Time slots will be added by JS -->
+                    </div>
+
+                    <div class="ai-suggestion">
+                        <h4><i class="fas fa-robot"></i> AI Recommendation</h4>
+                        <p id="ai-suggestion-text">Based on your preferences and weather conditions, we recommend booking in the evening for optimal playing conditions.</p>
+                    </div>
+
+                    <button id="proceed-to-booking" class="btn btn-primary" disabled>Proceed to Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Modal -->
+<div id="booking-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Complete Your Booking</h2>
+            <div class="booking-summary">
+                <h3 id="booking-field-name"></h3>
+                <p><strong>Date:</strong> <span id="booking-date-display"></span></p>
+                <p><strong>Time:</strong> <span id="booking-time"></span></p>
+                <p><strong>Duration:</strong> <span id="booking-duration">1 hour</span></p>
+                <p><strong>Total:</strong> <span id="booking-total"></span></p>
+            </div>
+
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="player-count">Number of Players</label>
+                    <input type="number" id="player-count" min="1" max="22" value="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="team-name">Team Name (optional)</label>
+                    <input type="text" id="team-name" placeholder="Enter your team name">
+                </div>
+
+                <div class="form-group">
+                    <label for="special-requests">Special Requests</label>
+                    <textarea id="special-requests" placeholder="Any special requirements?"></textarea>
+                </div>
+
+                <div class="payment-options">
+                    <h3>Payment Method</h3>
+                    <div class="options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="credit-card" checked>
+                            <i class="fas fa-credit-card"></i> Credit Card
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="jazzcash">
+                            <img src="images/jazzcash.png" alt="JazzCash"> JazzCash
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="easypaisa">
+                            <img src="images/easypaisa.png" alt="EasyPaisa"> EasyPaisa
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="cash">
+                            <i class="fas fa-money-bill-wave"></i> On-Site Cash
+                        </label>
+                    </div>
+                </div>
+
+                <div class="terms">
+                    <label>
+                        <input type="checkbox" id="agree-terms" required>
+                        I agree to the <a href="#">terms and conditions</a> and <a href="#">cancellation policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="login-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Login to Your Account</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div class="social-login">
+                <p>Or login with:</p>
+                <div class="social-buttons">
+                    <button class="btn btn-social google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button class="btn btn-social facebook">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                </div>
+            </div>
+            <div class="switch-form">
+                Don't have an account? <a href="#" id="show-register">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div id="register-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Create an Account</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-phone">Phone Number</label>
+                    <input type="tel" id="register-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Confirm Password</label>
+                    <input type="password" id="register-confirm" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-type">I am a:</label>
+                    <select id="user-type">
+                        <option value="player">Player</option>
+                        <option value="team-manager">Team Manager</option>
+                        <option value="field-owner">Field Owner</option>
+                    </select>
+                </div>
+                <div class="terms">
+                    <label>
+                        <input type="checkbox" id="register-terms" required>
+                        I agree to the <a href="#">terms and conditions</a>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+            <div class="switch-form">
+                Already have an account? <a href="#" id="show-login">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works">
+    <div class="container">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p>Booking a football field has never been easier. Follow these simple steps to secure your pitch.</p>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Search Fields</h3>
+                    <p>Find football fields near you by location, date, and preferences. Filter by size, surface, and amenities.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Check Availability</h3>
+                    <p>View real-time availability and select your preferred time slot. See pricing for different times.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Book & Pay</h3>
+                    <p>Secure your booking with our easy payment options. Get instant confirmation via email.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Play Football!</h3>
+                    <p>Arrive at the field and enjoy your game with friends. All you need to bring is your passion for football.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI Features Section -->
+<section class="ai-features">
+    <div class="container">
+        <div class="section-title">
+            <h2>Smart Features Powered by AI</h2>
+            <p>Our advanced AI helps you find the perfect field and optimize your playing experience.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>Smart Recommendations</h3>
+                <p>Our AI suggests the best fields and times based on your preferences, playing history, and weather conditions.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h3>Weather Adaptation</h3>
+                <p>Get alerts about weather conditions that might affect your game. AI suggests optimal playing times.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Team Matching</h3>
+                <p>Find players or teams with similar skill levels looking for games. Perfect for solo players.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Dynamic Pricing</h3>
+                <p>AI adjusts prices based on demand to help you find the best deals for off-peak hours.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section id="reviews" class="reviews">
+    <div class="container">
+        <div class="section-title">
+            <h2>What Our Users Say</h2>
+            <p>Hear from football enthusiasts who have booked fields through our platform.</p>
+        </div>
+        <div class="reviews-grid">
+            <!-- Reviews will be populated by JavaScript -->
+        </div>
+        <button class="btn btn-outline" id="leave-review">Leave a Review</button>
+    </div>
+</section>
+
+<!-- Review Modal -->
+<div id="review-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Leave a Review</h2>
+            <form id="review-form">
+                <div class="form-group">
+                    <label for="review-field">Select Field</label>
+                    <select id="review-field">
+                        <!-- Fields will be populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Rating</label>
+                    <div class="rating-input">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                        <input type="hidden" id="review-rating" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="review-comment">Your Review</label>
+                    <textarea id="review-comment" placeholder="Share your experience..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="section-title">
+            <h2>Contact Us</h2>
+            <p>Have questions or need assistance? Get in touch with our team.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>support@footypitch.com</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+92 300 1234567</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>123 Sports Avenue, Lahore, Pakistan</span>
+                </div>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3>Send Us a Message</h3>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>FootyPitch</h3>
+                <p>The easiest way to book football fields in Pakistan. Find, book, and play with our user-friendly platform designed for football enthusiasts.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#fields">Fields</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cancellation Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new fields and special offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FootyPitch. All rights reserved.</p>
+            <div class="payment-methods">
+                <img src="images/visa.png" alt="Visa">
+                <img src="images/mastercard.png" alt="Mastercard">
+                <img src="images/jazzcash.png" alt="JazzCash">
+                <img src="images/easypaisa.png" alt="EasyPaisa">
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Confirmation Toast -->
+<div id="toast" class="toast">
+    <div class="toast-content">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Booking confirmed!</span>
+    </div>
+</div>
+
+<!-- Admin Modal -->
+<div id="admin-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Admin Dashboard</h2>
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="manage-fields">Manage Fields</button>
+                <button class="tab-btn" data-tab="manage-bookings">Manage Bookings</button>
+                <button class="tab-btn" data-tab="manage-users">Manage Users</button>
+            </div>
+
+            <div id="manage-fields" class="tab-content active">
+                <h3>Football Fields Management</h3>
+                <button id="add-field-btn" class="btn btn-primary">Add New Field</button>
+                <div class="admin-fields-list">
+                    <!-- Fields will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="manage-bookings" class="tab-content">
+                <h3>All Bookings</h3>
+                <div class="filter-options">
+                    <select id="booking-filter">
+                        <option value="all">All Bookings</option>
+                        <option value="today">Today</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="past">Past</option>
+                    </select>
+                </div>
+                <div class="admin-bookings-list">
+                    <!-- Bookings will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="manage-users" class="tab-content">
+                <h3>User Management</h3>
+                <div class="search-box">
+                    <input type="text" id="user-search" placeholder="Search users...">
+                </div>
+                <div class="admin-users-list">
+                    <!-- Users will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Field Modal -->
+<div id="add-field-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-body">
+            <h2>Add New Football Field</h2>
+            <form id="add-field-form">
+                <div class="form-group">
+                    <label for="field-name">Field Name</label>
+                    <input type="text" id="field-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="field-location">Location</label>
+                    <input type="text" id="field-location" required>
+                </div>
+                <div class="form-group">
+                    <label for="field-description">Description</label>
+                    <textarea id="field-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="field-size">Field Size</label>
+                    <select id="field-size" required>
+                        <option value="5-a-side">5-a-side</option>
+                        <option value="7-a-side">7-a-side</option>
+                        <option value="11-a-side">11-a-side</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="field-surface">Surface Type</label>
+                    <select id="field-surface" required>
+                        <option value="Natural Grass">Natural Grass</option>
+                        <option value="Artificial Turf">Artificial Turf</option>
+                        <option value="Indoor">Indoor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="field-price">Price per hour (Rs.)</label>
+                    <input type="number" id="field-price" required>
+                </div>
+                <div class="form-group">
+                    <label for="field-capacity">Player Capacity</label>
+                    <input type="number" id="field-capacity" required>
+                </div>
+                <div class="form-group">
+                    <label for="field-amenities">Amenities (comma separated)</label>
+                    <input type="text" id="field-amenities" placeholder="e.g., Floodlights, Parking, Showers">
+                </div>
+                <div class="form-group">
+                    <label for="field-images">Image URLs (one per line)</label>
+                    <textarea id="field-images" placeholder="Enter image URLs, one per line"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Field</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- AI Assistant Chat -->
+<div class="ai-assistant">
+    <button class="ai-toggle">
+        <i class="fas fa-robot"></i>
+    </button>
+    <div class="ai-chat-container">
+        <div class="ai-chat-header">
+            <h3><i class="fas fa-robot"></i> FootyPitch AI Assistant</h3>
+            <button class="ai-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="ai-chat-messages">
+            <div class="ai-message bot">
+                <p>Hi! I'm your football field assistant. How can I help you today?</p>
+            </div>
+        </div>
+        <div class="ai-chat-input">
+            <input type="text" id="ai-chat-input" placeholder="Ask me about fields, bookings, or recommendations...">
+            <button class="btn btn-primary" id="ai-send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

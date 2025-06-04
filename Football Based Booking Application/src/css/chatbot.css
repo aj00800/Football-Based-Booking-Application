@@ -1,0 +1,261 @@
+/* Premium Chatbot Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.premium-chatbot-container {
+    width: 90%;
+    max-width: 500px;
+    height: 80vh;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatbot-header {
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.premium-badge {
+    font-size: 1.5rem;
+    color: #FFD700;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-status {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.chatbot-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.welcome-message {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.ai-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.message-content h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.message-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.quick-action-btn {
+    background: #f0f4ff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #2575fc;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.quick-action-btn:hover {
+    background: #e0e8ff;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background: white;
+    color: #333;
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.chatbot-footer {
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+#user-input:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+}
+
+.footer-notes {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #999;
+}
+
+.footer-notes i {
+    margin-right: 5px;
+}
+
+/* Premium badge animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.premium-badge {
+    animation: pulse 2s infinite;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.chatbot-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+iframe {
+    border: none;
+    flex-grow: 1;
+}
+
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .premium-chatbot-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+}
+
+
+
+
+
+
+
